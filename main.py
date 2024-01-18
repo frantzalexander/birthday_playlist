@@ -1,7 +1,11 @@
 import datetime as dt
 
 from data_manager import DataManager
+from playlist import Playlist
+from pprint import PrettyPrinter
 
+pp = PrettyPrinter(indent= 2)
+ 
 search_year = int(input("Enter the year: \n"))
 search_month = int(input("Enter the month: \n"))
 search_day = int(input("Enter the day: \n"))
@@ -30,3 +34,18 @@ with open("Music_artist.txt", mode = "w") as file2:
     for artist in artist_list:
         file2.write(f"{artist}\n")
         
+sp = Playlist(
+    song = song_list, 
+    artist = artist_list,
+    date = search_date
+    )
+
+search_results = sp.search_song()
+
+pp.pprint(search_results)
+# if search_results["track"]["items"][0]:
+
+#     track = search_results["track"]["items"][0]
+#     print(f"Song Name: {track['name']}")
+#     print(f"Artist: {}")
+
