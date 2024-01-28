@@ -2,6 +2,8 @@ import datetime as dt
 
 from data_manager import DataManager
 from playlist import Playlist
+from dateutil.relativedelta import relativedelta
+
 from pprint import PrettyPrinter
 
 pp = PrettyPrinter(indent= 2)
@@ -26,26 +28,36 @@ artist_list = data.get_artist_data()
 print(song_list)
 print(artist_list)
 
-with open("Song_list.txt", mode = "w") as file:
-    for song in song_list:
-        file.write(f"{song}\n")
+# with open("Song_list.txt", mode = "w") as file:
+#     for song in song_list:
+#         file.write(f"{song}\n")
         
-with open("Music_artist.txt", mode = "w") as file2:
-    for artist in artist_list:
-        file2.write(f"{artist}\n")
+# with open("Music_artist.txt", mode = "w") as file2:
+#     for artist in artist_list:
+#         file2.write(f"{artist}\n")
         
 sp = Playlist(
-    song = song_list, 
-    artist = artist_list,
+    song_list = song_list, 
+    artist_list = artist_list,
     date = search_date
     )
 
-search_results = sp.search_song()
+search_results_list = sp.search_results()
 
-pp.pprint(search_results)
-# if search_results["track"]["items"][0]:
+# pp.pprint(search_results_list[0])
 
-#     track = search_results["track"]["items"][0]
-#     print(f"Song Name: {track['name']}")
-#     print(f"Artist: {}")
+#extract the song URI for each song
+
+uri_search_results = []
+
+for _ in range(len(search_results_list)):
+    try:
+        uri = search_results_list[_]["tracks"]["items"][0]["uri"]
+    
+    except KeyError:
+        continue
+    
+    else:
+        uri_search_results.append(uri)
+    
 
