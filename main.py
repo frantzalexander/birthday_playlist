@@ -44,8 +44,6 @@ sp = Playlist(
 
 search_results_list = sp.search_results()
 
-# pp.pprint(search_results_list[0])
-
 #extract the song URI for each song
 
 uri_search_results = []
@@ -55,9 +53,34 @@ for _ in range(len(search_results_list)):
         uri = search_results_list[_]["tracks"]["items"][0]["uri"]
     
     except KeyError:
+        print(f"The song: {song_list[_]} does not exist in Spotify.\nThis song will be skipped.")
         continue
     
     else:
         uri_search_results.append(uri)
-    
 
+get_all_playlists = sp.get_user_playlists()
+
+user_playlist_creation = input("Would you like to create a new playlist?\nType Yes or No")
+
+user_playlist_creation = user_playlist_creation.capitalize()
+
+if user_playlist_creation == "Yes":
+    sp.make_playlist()
+
+else:
+    playlist_name = sp.playlist_name
+
+if playlist_name == "":
+    playlist_name = f"Billboard Hot 100 songs on {search_date}"
+
+for _ in range(len(get_all_playlists["items"])):
+    if get_all_playlists["items"][_]["name"] == playlist_name:
+        playlist_uri = get_all_playlists["items"][_]["uri"]
+
+playlist_id = playlist_uri.split(":")[2]
+
+sp.add_songs(
+    playlist_id = playlist_id,
+    tracks = uri_search_results
+)

@@ -9,7 +9,7 @@ class Playlist:
         self.song_list = song_list
         self.artist_list = artist_list
         self.date = date
-        self.scope = "playlist-modify-private"
+        self.scope = "playlist-modify-public"
         self.uri = "http://example.com"
         self.sp = spotipy.Spotify(
             auth_manager= SpotifyOAuth(
@@ -24,7 +24,8 @@ class Playlist:
             )
         
         self.user_id = self.sp.current_user()["id"]
-
+        self.playlist_name = ""
+        
     def search_song(self, song_track):
         self.song_track = song_track
         self.year_string = self.date[:4]
@@ -42,5 +43,33 @@ class Playlist:
         
         return self.search_list
         
+    def create_playlist(self):
+        self.playlist_name = f"Billboard Hot 100 songs on {self.date}"
+        self.playlist_description = "Top Songs"
         
+        self.sp.user_playlist_create(
+            user = self.user_id,
+            name = self.playlist_name,
+            public = True,
+            description= self.playlist_description
+        )
         
+    def get_user_playlists(self):
+        self.all_user_playlists = self.sp.user_playlists(
+            user = self.user_id
+        )
+        
+        return self.all_user_playlists
+
+    def make_playlist(self):
+        self.create_playlist()
+        
+    def add_songs(self, playlist_id: str, tracks: list):
+        self.playlist_id = playlist_id
+        self.tracks = tracks
+        self.sp.user_playlist_add_tracks(
+            user = self.user_id,
+            playlist_id = self.playlist_id,
+            tracks = self.tracks
+        )
+    
