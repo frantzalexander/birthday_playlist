@@ -14,6 +14,7 @@ class DataManager:
         self.data = data
         self.text_data = self.data.getText().strip()
         self.clean_data = self.text_data.lstrip("-")
+        
         return self.clean_data
     
     def get_song_data(self)-> list[str]:

@@ -3,12 +3,11 @@ from spotipy.oauth2 import SpotifyOAuth
 from decouple import config
 
 class Playlist:
-    def __init__(self, song_list, artist_list, date):
+    def __init__(self):
         self.__client_id = config("CLIENT_ID")
         self.__client_key = config("CLIENT_SECRET")
-        self.song_list = song_list
-        self.artist_list = artist_list
-        self.date = date
+        self.playlist_name = input("Enter playlist name:\n")
+        self.playlist_description = input("Enter playlist description:\n")
         self.scope = "playlist-modify-public"
         self.uri = "http://example.com"
         self.sp = spotipy.Spotify(
@@ -24,11 +23,10 @@ class Playlist:
             )
         
         self.user_id = self.sp.current_user()["id"]
-        self.playlist_name = ""
         
-    def search_song(self, song_track):
+    def search_song(self, song_track, date: str = None):
         self.song_track = song_track
-        self.year_string = self.date[:4]
+        self.year_string = date[:4]
         self.year = int(self.year_string)
         results = self.sp.search(
             q = f"track:{self.song_track} year:{self.year}", 
@@ -38,15 +36,12 @@ class Playlist:
         
         return results
     
-    def search_results(self):
-        self.search_list = [self.search_song(song) for song in self.song_list]
+    def search_results(self, song_list: list, date: str):
+        self.search_list = [self.search_song(song, date) for song in song_list]
         
         return self.search_list
         
     def create_playlist(self):
-        self.playlist_name = f"Billboard Hot 100 songs on {self.date}"
-        self.playlist_description = "Top Songs"
-        
         self.sp.user_playlist_create(
             user = self.user_id,
             name = self.playlist_name,
@@ -60,9 +55,6 @@ class Playlist:
         )
         
         return self.all_user_playlists
-
-    def make_playlist(self):
-        self.create_playlist()
         
     def add_songs(self, playlist_id: str, tracks: list):
         self.playlist_id = playlist_id
