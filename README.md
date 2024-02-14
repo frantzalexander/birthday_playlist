@@ -1,4 +1,12 @@
-# birthday_playlist
+# Project Overview
 Birthday Playlist
 
-Takes top 100 music from a date in the past to create a Spotify playlist.
+A program that creates a Spotify playlist from the billboard hot 100 rankings.
+
+## Objectives
+
+
+## Results
+
+
+## Process
