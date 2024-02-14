@@ -6,6 +6,7 @@ class Playlist:
     def __init__(self):
         self.__client_id = config("CLIENT_ID")
         self.__client_key = config("CLIENT_SECRET")
+        self.__user_id_name = config("USER_ID")
         self.playlist_name = input("Enter playlist name:\n")
         self.playlist_description = input("Enter playlist description:\n")
         self.scope = "playlist-modify-public"
@@ -16,7 +17,7 @@ class Playlist:
                 client_id = self.__client_id,
                 client_secret = self.__client_key,
                 redirect_uri = self.uri,
-                username= "Pyrial",
+                username= self.__user_id_name,
                 show_dialog = True,
                 cache_path= "token.txt"
                 )
@@ -30,6 +31,17 @@ class Playlist:
         self.year = int(self.year_string)
         results = self.sp.search(
             q = f"track:{self.song_track} year:{self.year}", 
+            type= "track", 
+            limit= 1
+            )
+        
+        return results
+    
+    def search_song_by_artist(self, song_track, artist):
+        self.song_track = song_track
+        self.artist = artist
+        results = self.sp.search(
+            q = f"track:{self.song_track} artist:{self.artist}", 
             type= "track", 
             limit= 1
             )
