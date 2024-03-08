@@ -32,6 +32,13 @@ The Data Manager Module utilizes the Requests and Beautiful Soup Python Librarie
 
 
 ```mermaid
-flowchart TD
-start(((START)))
-data_manager[]
+classDiagram
+    class Main["Main"]
+    class Playlist["Playlist"]
+    class DataManager["DataManager"]{
+        Website URL
+        Date
+        extract_text()
+        get_song_data()
+        get_artist_data()
+}
