@@ -19,7 +19,7 @@ The project consists of 3 modules:
 - Playlist Module
 - Data Manager Module
 
-The Main Module is responsible for executing the program.
+The Main Module is responsible for executing the program an acquiring user input.
 
 
 The Playlist Module retrieves song data utilizing the Spotify API. 
