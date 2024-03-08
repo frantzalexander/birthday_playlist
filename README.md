@@ -34,7 +34,19 @@ The Data Manager Module utilizes the Requests and Beautiful Soup Python Librarie
 ```mermaid
 classDiagram
     class Main["Main"]
-    class Playlist["Playlist"]
+    class Playlist["Playlist"]{
+        Playlist Name
+        Playlist Description
+        Scope
+        Sp
+        User ID
+        search_song()
+        search_song_by_artist()
+        search_results()
+        create_playlist()
+        get_user_playlists()
+        add_songs()    
+}
     class DataManager["DataManager"]{
         Website URL
         Date
@@ -42,3 +54,5 @@ classDiagram
         get_song_data()
         get_artist_data()
 }
+    Main<|--Playlist
+    Main<|--DataManager
